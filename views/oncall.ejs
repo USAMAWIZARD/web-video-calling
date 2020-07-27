@@ -1,0 +1,81 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/simplepeer.min.js"></script>
+	<script src='/script.js'></script>
+
+
+
+
+	<title>Flat Video Call Widget Responsive Template :: w3layouts</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script
+		type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<meta name="keywords"
+		content="Video Call Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
+	<link href="css/style.css" rel='stylesheet' type='text/css' />
+	<!--webfonts-->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:500,100,300,400' rel='stylesheet' type='text/css'>
+	<!--//webfonts-->
+</head>
+
+<body>
+	<div class="header">
+		<h1>Flat <span>Video Call</span> Widget</h1>
+	</div>
+	<!-----start-main---->
+	<div class="login-form">
+		<div class="head-info">
+			trying to connect to <%= tocall %>
+			<video src="" id="video"></video>
+
+		</div>
+	</div>
+
+										
+	<script> 					//reusing the same file for reciver and sender
+	if(location.hash=="#init"){
+	socket.emit("isclientonline", "<%= tocall %>")	//call client 
+	}
+	else{
+		console.log("alag haai")
+	}
+
+</script>	
+</body>
+<script>
+                                    //if user acccept the call the share the peer id to communticate
+video =document.getElementById("video")
+navigator.mediaDevices.getUserMedia({ video: true,audio:true0}).then(function(stream) {
+
+video.srcObject = stream
+
+peer = new SimplePeer({
+    initiator: location.hash === '#init',
+            trickle: false,
+            stream: stream
+})
+peer.on('signal', function (data) {
+    console.log('mera')
+    console.log(data)
+    socket.emit('peerid',data)
+    })
+
+    peer.on('stream',function(stream){
+            
+        video.srcObject = stream;
+        video.play();
+        
+        })  
+    })
+
+</script>
+</html>
