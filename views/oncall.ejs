@@ -54,7 +54,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script>
                                     //if user acccept the call the share the peer id to communticate
 video =document.getElementById("video")
-navigator.mediaDevices.getUserMedia({ video: true,audio:true0}).then(function(stream) {
+navigator.mediaDevices.getUserMedia({ video: true,audio:true}).then(function(stream) {
 
 video.srcObject = stream
 
@@ -66,7 +66,7 @@ peer = new SimplePeer({
 peer.on('signal', function (data) {
     console.log('mera')
     console.log(data)
-    socket.emit('peerid',data)
+    socket.emit('peerid',data,"<%= tocall %>")
     })
 
     peer.on('stream',function(stream){

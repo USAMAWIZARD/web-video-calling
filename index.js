@@ -87,12 +87,13 @@ io.on("connection", socket => {
     socket.to().emit("callrejected")
 
   })
-  socket.on("peerid",(pid)=>{
+  socket.on("peerid",(pid,tocall)=>{
     console.log("peer id of initializer",pid)
-
-    socket.broadcast.emit("peerid",pid);
+    db.collection("users").find({ username: tocall }, { fields: { _id: 0, sockid: 1 } }).toArray(function (err, result) {
+    socket.to(result[0]["sockid"]).emit("peerid",pid);
 
   })
+})
 
 });
 
